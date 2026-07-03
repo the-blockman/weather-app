@@ -1,18 +1,20 @@
-# Webpack Boilerplate
+# Weather App
 
-A clean starting point for front-end projects, with a dev/prod webpack setup, linting, and formatting already wired up.
+A simple weather lookup app built with vanilla JavaScript and Webpack. Search any city and see current conditions, pulled live from the Visual Crossing Weather API.
 
-## What's included
+## Features
 
-- **Webpack**, split into three configs:
-  - `webpack.common.js` — shared entry, output, plugins, and loaders
-  - `webpack.dev.js` — dev server, fast source maps
-  - `webpack.prod.js` — production build, optimized source maps
-- **HTML generation** via `html-webpack-plugin` (`src/template.html`)
-- **CSS support** via `style-loader` + `css-loader`
-- **Image assets** (`png`, `svg`, `jpg`, `jpeg`, `gif`) via Webpack's built-in asset modules
-- **ESLint** (flat config) for catching bugs
-- **Prettier** for consistent formatting, with `eslint-config-prettier` to prevent rule conflicts
+- Live weather data (temperature, conditions, "feels like") via the [Visual Crossing Weather API](https://www.visualcrossing.com/weather-api)
+- Weather condition icons, loaded via dynamic `import()` so only the icon actually needed gets fetched
+- Loading state while data is being fetched
+- Last-searched city remembered via `localStorage`
+- Basic error handling for invalid city searches
+
+## Tech stack
+
+- Vanilla JavaScript (ES6+, async/await, dynamic imports)
+- Webpack, with separate dev/prod configs merged from a shared base
+- ESLint (flat config) + Prettier for linting and formatting
 
 ## Getting started
 
@@ -22,13 +24,13 @@ Install dependencies:
 npm install
 ```
 
-Start the dev server (opens automatically, hot reloads on save):
+Start the dev server:
 
 ```
 npm run dev
 ```
 
-Build for production (outputs to `dist/`):
+Build for production:
 
 ```
 npm run build
@@ -47,8 +49,12 @@ npm run build
 
 ```
 src/
-  index.js         # entry point
-  template.html    # HTML template used by html-webpack-plugin
+  index.js          # entry point
+  app.js             # fetches weather data from the API
+  ui.js               # renders weather data to the DOM
+  storage.js          # localStorage get/set for last-searched city
+  icons/              # weather condition SVG icons
+  template.html       # HTML template used by html-webpack-plugin
 webpack.common.js
 webpack.dev.js
 webpack.prod.js
@@ -56,9 +62,11 @@ eslint.config.js
 .prettierrc.json
 ```
 
-## Code style
+## Notes
 
-- 2-space indentation
-- Double quotes
-- Semicolons always
-- Enforced automatically via ESLint + Prettier — run `npm run format` before committing
+- The API key is currently hardcoded in `app.js` for development convenience. Before deploying publicly, move it to an environment variable or a backend proxy so it isn't exposed in the client bundle.
+- Units are set to metric (`unitGroup=metric`) in the API request.
+
+## Credits
+
+Weather icons from [visualcrossing/WeatherIcons](https://github.com/visualcrossing/WeatherIcons), licensed under GNU LGPL.
